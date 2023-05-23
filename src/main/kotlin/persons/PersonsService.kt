@@ -3,12 +3,17 @@ package persons
 import Person
 import Persons
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 interface PersonsService {
     suspend fun create(name: String, age: Int?): Int
     suspend fun all(): List<Person>
     suspend fun findById(id: Int): Person?
+
+    suspend fun update(id: Int, name: String, age: Int?)
+
+    suspend fun delete(id: Int)
 }
 
 class PersonsServiceDB: PersonsService {
@@ -39,6 +44,25 @@ class PersonsServiceDB: PersonsService {
         }
 
         return rec?.asPerson()
+    }
+
+    override suspend fun update(id: Int, name: String, age: Int?) {
+        transaction {
+            addLogger(StdOutSqlLogger)
+            Persons.update({Persons.id eq id}) {
+                it[Persons.name] = name
+                if (age != null) {
+                    it[Persons.age] = age
+                }
+            }
+        }
+    }
+
+    override suspend fun delete(id: Int) {
+        transaction {
+            addLogger(StdOutSqlLogger)
+            Persons.deleteWhere { Persons.id eq id }
+        }
     }
 
 }

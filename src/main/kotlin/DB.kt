@@ -2,14 +2,14 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
 
 object DB {
-    val db by lazy {
+     val db by lazy {
         //DB config
-        val host = "localhost"
-        val port = 5555
-        val dbName = "test_web_db"
-        val dbUser = "test_user"
-        val dbPassword = "test"
-        Database.connect("jdbc:postgresql://$host:$port/$dbName", driver = "org.postgresql.Driver",
+         val host = "localhost"
+         val port = 5555
+         val dbName = "test_web_db"
+         val dbUser = "test_user"
+         val dbPassword = "test"
+         Database.connect("jdbc:postgresql://$host:$port/$dbName", driver = "org.postgresql.Driver",
             user = dbUser, password = dbPassword)
     }
 }

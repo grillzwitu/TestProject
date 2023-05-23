@@ -39,5 +39,32 @@ fun Route.personsRouter(personsService: PersonsService) {
                 }
             }
         }
+
+        //Update
+        put("/{id}") {
+            with(call) {
+                //get id from the url
+                val id = requireNotNull(parameters["id"]).toInt()
+
+                //receive body parameters
+                val params = receiveParameters()
+
+                val name = requireNotNull(params["name"])
+                val age = params["age"]?.toInt()
+
+                //update the service
+                personsService.update(id, name, age)
+
+            }
+        }
+
+
+        //Delete Person
+        delete("/{id}") {
+            with(call) {
+                val id = requireNotNull(parameters["id"]).toInt()
+                personsService.delete(id)
+            }
+        }
     }
 }
