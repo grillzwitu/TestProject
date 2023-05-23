@@ -2,14 +2,13 @@ package persons
 
 import Person
 import Persons
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 interface PersonsService {
     suspend fun create(name: String, age: Int?): Int
     suspend fun all(): List<Person>
+    suspend fun findById(id: Int): Person?
 }
 
 class PersonsServiceDB: PersonsService {
@@ -31,6 +30,15 @@ class PersonsServiceDB: PersonsService {
                 row.asPerson()
             }
         }
+    }
+
+    override suspend fun findById(id: Int): Person? {
+        val rec = transaction {
+            addLogger(StdOutSqlLogger)
+            Persons.select { Persons.id eq id }.firstOrNull()
+        }
+
+        return rec?.asPerson()
     }
 
 }

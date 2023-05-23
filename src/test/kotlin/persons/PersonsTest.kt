@@ -1,6 +1,6 @@
 package persons
 
-import DbSettings
+import DB
 import Persons
 import asJson
 import io.ktor.client.request.*
@@ -36,30 +36,27 @@ class PersonsTest {
             val afterCreate = client.get("/persons")
             Assertions.assertEquals(
                 """[{"id":1,"name":"Soko","age":20}]""".asJson(),
-                afterCreate.bodyAsText()?.asJson()
+                afterCreate.bodyAsText().asJson()
             )
         }
     }
 
-//    @Test
-//    fun `Person by ID`() {
-//        testApplication {
-//            application { mainModule() }
-//            val createCall = createPerson("Samson", 12)
-//            val id = createCall.bodyAsText()
-//
-//            val afterCreate = client.get("/persons/$id")
-//
-//            Assertions.assertEquals(
-//                """{"id":1,"name":"Apollo","age":12}""".asJson(),
-//                afterCreate.bodyAsText()?.asJson()
-//            )
-//        }
-//    }
+    @Test
+    fun `Person by ID`() {
+        testApplication {
+            application { mainModule() }
+            val createCall = createPerson("Samson", 12)
+            val id = createCall.bodyAsText()
+
+            val afterCreate = client.get("/persons/$id")
+
+            Assertions.assertEquals("""{"id":1,"name":"Samson","age":12}""".asJson(), afterCreate.bodyAsText().asJson())
+        }
+    }
 
     @BeforeEach
     fun cleanup() {
-        DbSettings.db
+        DB.db
         transaction {
             SchemaUtils.drop(Persons)
         }

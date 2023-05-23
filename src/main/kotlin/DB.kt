@@ -1,7 +1,7 @@
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
 
-object DbSettings {
+object DB {
     val db by lazy {
         //DB config
         val host = "localhost"

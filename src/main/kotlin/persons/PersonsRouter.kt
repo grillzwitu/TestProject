@@ -25,5 +25,19 @@ fun Route.personsRouter(personsService: PersonsService) {
         get {
             call.respond(personsService.all())
         }
+
+        //Get Person by id
+        get("/{id}") {
+            with(call) {
+                val id = requireNotNull(parameters["id"]).toInt()
+                val person = personsService.findById(id)
+
+                if (person == null) {
+                    respond(HttpStatusCode.NotFound)
+                } else {
+                    respond(person)
+                }
+            }
+        }
     }
 }

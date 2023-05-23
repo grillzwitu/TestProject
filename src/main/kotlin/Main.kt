@@ -6,7 +6,6 @@ import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
@@ -28,7 +27,7 @@ fun main() {
 fun Application.mainModule() {
 
     //initialize db
-    val db = DbSettings.db
+    DB.db
 
     //Create db table
     transaction {
