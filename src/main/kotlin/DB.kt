@@ -4,11 +4,11 @@ import org.jetbrains.exposed.sql.Database
 object DB {
      val db by lazy {
         //DB config
-         val host = "localhost"
-         val port = 5555
-         val dbName = "test_web_db"
-         val dbUser = "test_user"
-         val dbPassword = "test"
+         val host = System.getenv("DB_HOST")
+         val port = System.getenv("DB_PORT")
+         val dbName = System.getenv("DB_NAME")
+         val dbUser = System.getenv("DB_USER")
+         val dbPassword = System.getenv("DB_PASSWORD")
          Database.connect("jdbc:postgresql://$host:$port/$dbName", driver = "org.postgresql.Driver",
             user = dbUser, password = dbPassword)
     }

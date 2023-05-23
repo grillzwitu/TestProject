@@ -1,0 +1,22 @@
+version: '3'
+services:
+  persons_database:
+    image: postgres:11
+    ports:
+      - 5555:5432
+    environment:
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test_web_db
+  web:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - persons_database
+    environment:
+      - DB_HOST=persons_database
+      - DB_PORT=5432
+      - DB_USER=test_user
+      - DB_PASSWORD=test
+      - DB_NAME=test_web_db
