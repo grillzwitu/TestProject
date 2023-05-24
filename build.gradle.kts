@@ -10,6 +10,8 @@ repositories {
     mavenCentral()
 }
 
+val mainClassName = "MainKt"
+
 val ktorVersion: String by project
 val exposedVersion: String by project
 val postgresqlVersion: String by project

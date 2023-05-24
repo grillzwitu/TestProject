@@ -68,7 +68,7 @@ class PersonsTest {
             application { mainModule() }
 
             //create the person
-            val cal = createPerson("Larry Paige", 45)
+            val cal = createPerson("Salt Lee", 40)
 
             //get the id
             val id = cal.bodyAsText()
